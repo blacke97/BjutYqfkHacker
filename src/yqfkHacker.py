@@ -2,6 +2,8 @@ import requests
 import re
 import logging
 import json
+import os
+import sys
 
 token = ''
 cookie = ''
@@ -60,6 +62,23 @@ yqfkSession.headers = yqfkHeaders
 casSession.headers = casHeaders
 itsappSession.headers = itsappHeaders
 
+def changeCurrentPath():
+
+    myLogger = logging.getLogger('myLogger.info')
+
+    paths = sys.path
+    current_file = os.path.basename(__file__)
+    for path in paths:
+        try:
+            if current_file in os.listdir(path):
+                current_path = path
+                os.chdir(current_path)
+                myLogger.info("Current work path : " + os.getcwd())
+                break
+        except (FileExistsError,FileNotFoundError) as e:
+            print(e)
+
+
 def init():
     global cookie
     global token
@@ -70,10 +89,13 @@ def init():
     myLogger = logging.getLogger('myLogger.info')
     myLogger.setLevel(logging.INFO)
     
-    fh = logging.FileHandler('info.log', encoding='utf-8', mode='a')
+    fh = logging.FileHandler('./info.log', encoding='utf-8', mode='a')
     formatter = logging.Formatter('%(asctime)s-%(levelname)s : %(message)s')
     fh.setFormatter(formatter)
+    
     myLogger.addHandler(fh)
+
+    changeCurrentPath()
 
     res = readData('./tmp.info')
     
@@ -88,7 +110,9 @@ def init():
 def postDailyForm(cookie,token,clear):
     
     global yqfkSession
-
+    
+    myLogger = logging.getLogger('myLogger.info')
+    
     if clear is True:
         yqfkSession.cookies.clear()
         yqfkSession.headers['Cookie'] = cookie
@@ -104,10 +128,8 @@ def postDailyForm(cookie,token,clear):
     print(res.text)
 
     if 'json' in res.headers['Content-Type']:
-        myLogger = logging.getLogger('myLogger.info')
         myLogger.info(res.json())
         return res.json()
-    myLogger = logging.getLogger('myLogger.info')
     myLogger.warning('信息可能已经失效，重新登录中...')
     print('信息可能已经失效，重新登录中...')
     return -1
@@ -143,10 +165,10 @@ def loginAndPostDailyForm():
 
     res3 = itsappSession.get(url3, verify = False, allow_redirects=False)
 
-    print(res3.text)
-    print(res3.request.headers)
-    print(res3.history)
-    print(res3.headers)
+    # print(res3.text)
+    # print(res3.request.headers)
+    # print(res3.history)
+    # print(res3.headers)
 
     # 302 无返回值
     # url4 = 'https://itsapp.bjut.edu.cn/uc/wap/login?redirect=https%3A%2F%2Fitsapp.bjut.edu.cn%2Fuc%2Fapi%2Foauth%2Findex%3Fredirect%3Dhttp%3A%2F%2Fyqfk.bjut.edu.cn%2Fapi%2Flogin%2Fpages-index-index%3Flogin%3D1%26appid%3D200220501233430304%26state%3DSTATE'
@@ -214,7 +236,7 @@ def loginAndPostDailyForm():
 
     url11 = 'https://yqfk.bjut.edu.cn/api/code?code='+code
     res12 = yqfkSession.get(url11)
-    print(res12.text)
+    # print(res12.text)
 
     print(res12.json()['token'])
 
