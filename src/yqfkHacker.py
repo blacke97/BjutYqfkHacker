@@ -2,6 +2,8 @@ import requests
 import re
 import logging
 import json
+import os
+import sys
 
 token = ''
 cookie = ''
@@ -22,6 +24,21 @@ def readData(fileName):
 yqfkSession = requests.sessions.session()
 itsappSession = requests.sessions.session()
 casSession = requests.sessions.session()
+
+
+def changeCurrentPath():
+
+    paths = sys.path
+    current_file = os.path.basename(__file__)
+    for path in paths:
+        try:
+            if current_file in os.listdir(path):
+                current_path = path
+                os.chdir(current_path)
+                break
+        except (FileExistsError,FileNotFoundError) as e:
+            print(e)
+
 
 def getCookie(cookieStr):
     cookieDic = dict()
@@ -79,6 +96,8 @@ def init():
     global username
     global password
     global postData
+
+    changeCurrentPath()
 
     myLogger = logging.getLogger('myLogger.info')
     myLogger.setLevel(logging.INFO)
