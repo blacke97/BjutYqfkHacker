@@ -140,7 +140,7 @@ def init():
 
 def sendMail():
     myMailBox = MailBox.MailBox(mailserver, mailaccount, mailpasswd, logging.getLogger('myLogger.info'))
-    myMailBox.connServer()
+    myMailBox.connServerBySSL()
 
     subject = '疫情每日打卡'
     message = '打卡失败'
@@ -151,6 +151,7 @@ def sendMail():
 def postDailyForm(cookieStr,token,clear):
     
     global yqfkSession
+    global count
     myLogger = logging.getLogger('myLogger.info')
 
     if clear is True:

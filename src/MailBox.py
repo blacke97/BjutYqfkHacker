@@ -21,9 +21,9 @@ class MailBox:
             self.myLogegr.info('邮箱登录失败')
             smtp.quit()
 
-    def connServerBySSL(self):
+    def connServerBySSL(self, port=465):
         try:
-            smtp = smtplib.SMTP_SSL(self.smtp_server, 465)
+            smtp = smtplib.SMTP_SSL(self.smtp_server, port)
             smtp.login(self.sender_account, self.sender_passwd)
             self.smtp = smtp
         except smtplib.SMTPException:
