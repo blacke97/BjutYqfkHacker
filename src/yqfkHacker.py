@@ -302,8 +302,7 @@ def loginAndPostDailyForm():
     myLogger.info('token={}'.format(newToken))
 
     myDic = dict()
-    myDic['username'] = username
-    myDic['password'] = password
+
     myDic['token'] = newToken
     myDic['cookie'] = res12.request.headers['Cookie']
     writeDate('./tmp.info', myDic)
