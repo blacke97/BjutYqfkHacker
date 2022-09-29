@@ -174,7 +174,7 @@ def postDailyForm(cookieStr, token, clear):
         myLogger.warning('服务器暂时出现问题，1小时后重试...')
         count += 1
         if count > 6:
-            myLogger.error('服务其出现问题，暂时无法打卡')
+            myLogger.error('服务器出现问题，暂时无法打卡')
             sendMail()
             return -100
         time.sleep(3600)
@@ -308,7 +308,7 @@ def loginAndPostDailyForm():
     writeDate('./tmp.info', myDic)
     myLogger.info('保存基本信息成功')
 
-    info = postDailyForm(cookie, newToken, True)
+    info = postDailyForm(res12.request.headers['Cookie'], newToken, True)
     if info == -1:
         sendMail()
     return info
