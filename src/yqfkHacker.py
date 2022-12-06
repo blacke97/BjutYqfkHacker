@@ -271,11 +271,11 @@ def loginAndPostDailyForm():
     res7 = casSession.post(loginUrl, data=myParams, allow_redirects=False, verify=False)
 
     # https://itsapp.bjut.edu.cn/a_bjut/api/sso/index?redirect=https%3A%2F%2Fitsapp.bjut.edu.cn%2Fuc%2Fapi%2Foauth%2Findex%3Fredirect%3Dhttp%3A%2F%2Fyqfk.bjut.edu.cn%2Fapi%2Flogin%2Fpages-index-index%3Flogin%3D1%26appid%3D200220501233430304%26state%3DSTATE&from=wap&ticket=ST-212376-PSiNendCM0fJK2-Y2fRIZbaftGobc8e4494d89c
-    url7 = res7.headers['Location']
-    res8 = itsappSession.get(url7, allow_redirects=False, verify=False)
+    # url7 = res7.headers['Location']
+    # res8 = itsappSession.get(url7, allow_redirects=False, verify=False)
 
     # https://itsapp.bjut.edu.cn/a_bjut/api/sso/index?redirect=https%3A%2F%2Fitsapp.bjut.edu.cn%2Fuc%2Fapi%2Foauth%2Findex%3Fredirect%3Dhttp%3A%2F%2Fyqfk.bjut.edu.cn%2Fapi%2Flogin%2Fpages-index-index%3Flogin%3D1%26appid%3D200220501233430304%26state%3DSTATE&from=wap
-    url8 = res8.headers['Location']
+    url8 = res7.headers['Location']
     res9 = itsappSession.get(url8, allow_redirects=False, verify=False)
 
     # https://itsapp.bjut.edu.cn/uc/api/oauth/index?redirect=http://yqfk.bjut.edu.cn/api/login/pages-index-index?login=1&appid=200220501233430304&state=STATE
